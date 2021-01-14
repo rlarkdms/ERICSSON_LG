@@ -1,0 +1,30 @@
+처음 등록하는 과정
+Initial Registration with AKA(Aurhentication and Agreement) Authentication Over NR(New Radio)/ERICSSON
+
+
+첫번째로 UE가 (R)AN으로 정보를 보내고 요청합니다.-등록 타입(처음인지 어떤지),SUCI(암호화 된 키)/5G-GUTI(임시키),보안 파라미터,NSSAI(Network Slice Selection Assistance Information)
+이 메시지(정보)를 (R)AN을 거쳐 AMF로 보내고 요청합니다.-등록 타입(처음인지 어떤지),SUCI(암호화 된 키)/5G-GUTI(임시키),보안 파라미터,NSSAI 
+--------------------------------여기부터는 5G Core Network의 과정-----------------------------------------
+AMF는 메시지(정보)를 받고 AUSF로 가기 위해서 NRF에게 원하는 NF(Network Function)를 요청하여 정보를 받아옵니다.[PUT Request->DisCovery]-instance type,instance name etc...
+AMF는 NRF에게 받은 값을(AUSF의 정보) 통해 AUSF에게 가지고 있던 SUCI값을 전달하며 값을 요청합니다.[PUT Request]-SUCI(암호화 키)
+그럼 AUSF는 NRF에서 UDM의 정보를 받아옵니다.[Put-Request->Discovery]
+AUSF는 UDM에게 SUCI을 주고 EAP-AKA AV와 SUPI을 받아옴.[PUT Request]-SUCI [Response]-SUPI(복호화된 키),EAP-AKA AV(인증을 위한 파라미터 묶음)
+AUSF는 AMF에게 아까의 요청에 대한 응답으로 EAP Request/AKA Challenge을 전달함[ResPonse]->여기서 중요한게 이게 새로운 키를 만들어 달라고 요청한거임.AMF가 AUSF에게 요청해서 CP에서 쓸 새로운 키를 생성함.
+이 후 AMF가 RAN에게 정보를 전달하여 인증을 끝냄.
+AMF가 AUSF에게 EAP Response/AKA Challenge을 주고 [PUT Request] -EAP Response /AKA Challenge
+그리고 AUSF에게 만들어준 새로운 키값을 AMF가 받아옴[Get] -EAP Success || Anchor Key || SUPI
+그럼 값을 받은 AMF가 N1 메시지로 EAP-SUCCESS을 보냄.
+AMF는 NRF에게 UDM의 정보를 요청해서 받아옴[PUT -Discovery]
+그후 AMF가 UDM에게 새로운 키 값에 대한 등록 정보를 요청함.[PUT]
+등록되면 UDM이 SDM에게(아니 여기 SDM이 아니라 UDR이여야 하는거 아니야??? 왜지?-> 찾아보니까 약자가 다르네..ㅎㅎ SDM Software Define Montoring인줄 알았는데 알고보니 Subscriber Data Management였음) Get을 해서
+AMF Subscription Data랑 SMF Selection SubScription Data을 가져와서 AMF에 Subscription Data을 바꿔버림. 
+마지막으로 AMF가 NRF에게 PCF의 위치를 물어보고 PCF에게 Policy information을 요청함[PUT-Request]
+PCF는 처리를 해서 Policy information을 받아옴.[get-response]
+AMF가 Event Exposure_Subscribe을 등록함.(솔직히 뭔지 모르겠는데...중요하지 않은 부분임)
+그럼 등록정보를 UE가 받아드리면(5G-GUTI,Registration Area, Mobility Restrictions, Allowed NSSAI, IMS Voice over PS indeication)
+등록 완료!!!
+
+중요한게 UE에서 온 키를 계속 쓰는게 아니였음 중간에 AUSF에서 보안 문제 때문에 키를 만듦.이로 인해 보안성있게 운영할 수 있게 됨.
+처음 UE에서 주는 키를 계속 쓰면 보안에 안좋으니 망등록,인증이 완료되면 이후에는 키를 만들고 나눠주고 그 키에 맞는 정보를 대응해서 보여주는 거임.
+
+2021.01.14 inital Registration 공부.
