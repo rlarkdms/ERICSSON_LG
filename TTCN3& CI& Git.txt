@@ -1,0 +1,326 @@
+FT분들과 TC 적합성 co-work을 위해서는 TTCN-3와 GIT CI툴을 쓸 줄 알아야한다.
+
+여러가지 정보가 있지만 간단하게 정리를 해보자.
+
+TTCN-3는 요구된 명세서에 따른 TC을 만들어 통신 시스템 적합성을 확인하는 테스트 언어입니다.
+
+잠깐 TTCN 언어는 어떻게 쓰이는지 확인을 해봤는데 C와 비슷한 언어로 모듈을 만들거나 구조체를 이용한 짜임이 많은 언어라고 생각이 든다.
+Header와 Class을 잘 쓸 줄 알아야 할것같은 느낌이 많이 든다.
+
+인터넷을 더 찾아봤지만 참고자료도 없고 약간은 어려울 것 같다는 느낌이 들지만 답은 언젠가 나온다!
+오늘은 집에 가서 오랜만에 Class와 Header 관련 공부를 해야겠습니다.
+
+CI툴은 회사에서 쓰는 툴이 있고 CI는 Continuous Integration의 약자로 지속적인 통합을 위한 툴로
+Jenkins,Circle CI,Travis 등 여러가지 CI/CD 툴이 있다.
+
+Git에서 마스터가 있고 Clone을 통해서 Branch을 가져오고 그 Branch를 clone하고 Local OR 가상환경에서 작업 한 후 PUSH을 한다 
+만약 Fail이 나면 다시 작업해서 PUSH하면 되고 근데 작업한게 완성이 된다? 그러면 Code review을 하고 OK이면 그 Branch에서 PR을 날려서 마스터가 merge 하면 끝!
+
+결론은 CI는 개발자를 위한 자동화 프로세스인 지속적인 통합을 의미하는데 
+새로운 코드가 생기고 변경되고 빌드 테스트되어 공유 레포에 통합될때 여러 개발자가
+코드 작업을 할 경우 서로 충돌 날 수 있는데 이런 문제를 CI툴로 해결 가능하다.
+
+
+------------------------------------TTCN-------------------------------------------
+TTCN3-> Testing and Test Control Notation 3
+C/C++과 유사한 언어임.
+
+특이한 타입이 있음(interget,float, charstring...)
+구조 타입 record,set,union,enumerated,record of,set of이 있음.
+
+변수는
+var <Type><variable name>:=<value> -> 이런식으로 정의함.(run time 중에 변화가 가능함.)
+Ex) var integer vl_number_of_items:=2 
+const <Type><variable name>:=<value> ->이런식으로 정의함.(run time 중에 변화가 불가능함.)
+Ex) const integer vl_number_of_items:=2
+특이한 변수인 사용법인 modulepar가 있음.->모듈 파라미터라고 한다.(run time이전에 이미 만들어져 있어서 run time 도중에 값 변화를 못한다.)
+moduleper <Type><tsp name>:=<value>
+
+simple data types
+
+우리가 알고 있는 대부분의 타입인 boolean,integer,float등이 있고
+위에서 말한 charstring 같은 생소한 타입이 있음.
+charstring->"Hello World" (C++의 string임)
+bitstring-> ''B,'1'B, '011101'B (2진수 변수)
+hexstring-> ''H,'AD'H, '5567BCD'H (4비트의 배열 16진법으로 표현되어있다 Ex) 5567BCD와 같이! 1/2/4/8->15까지라서)
+octetstring-> ''O,'AB'O, '13F4'O (8비트의 배열을 말한다고 한다.)
+
+SPECIAL DATA TYPES
+Port 데이터 타입.
+Ex)
+Type port PT_MY_PORT message
+{
+	inout integer;
+	in charstring;
+}
+->들어올때는 charstring 타입으로 들어오고 나갈때는 integer 타입으로 나가는것.
+Component data types (Port,Component,verdicttype)
+Ex)
+type component MY_COMP
+runs on MY_COMP
+{
+	var charstring v_name;
+	var boolean v_autoreply;
+	port PT_MY_PORT PCO_my_port; ->위에껄 참조한듯.
+	timer T_my_timer;
+}
+❤중요 진짜 특이한 타입이 있음 verdict type 존재함(판정타입->아마 테스트 관련 언어라 그런듯)
+이 타입은 5가지 value 존재함.
+-none(아무것도 안한면 none임)
+-pass
+-inconc(잘못된 행동하면 나옴)
+-fail
+-error
+
+구조적인 데이터 타입=>구조체 타입인듯?(Record,Set)
+record은 C의 구조체 느낌임.
+set도 비슷한 느낌임 근데 다른점이 있음.
+
+Record 타입은 파라미터의 값이 순서가 고정되어있어야함.
+SET은 그럴 필요가 없음. 순서 고정이 아님.
+예를 들면 
+type record MyRecordType
+{
+integer field1 optional,
+boolean field2
+} 
+var MyRecordType vl_rl :=(이건 에러가 안남)
+{
+field1 :=1,
+field2 :=true
+}
+->이건 에러 안남 하지만 아래처럼 순서 안맞게 작성하면 에러남.
+var MyRecordType vl_rl :=
+{
+field2=true
+field1=0,
+}
+UNION 타입->이것도 C에는 있는 타입이지만 거의 사용하는걸 본 적이 없다.
+type union MyUnionType
+{
+	integer num1,
+	integer num2,
+	charstring str
+}
+var MyUnionType vl_myUnion
+{
+	num1 :=3
+};
+
+var MyUniontype vl_myUnion2;
+vl_myUnion2 :=
+{
+	num2 :=3
+};
+vl_myUnion2.num2 :=3
+if ischosen(vl_myUnion2.num2){...} ->이거는 True 나옴 myUnion2.num2가 있기때문에...
+
+ENUMERATED 타입(열거 타입 다 프로그래밍 언어론할때 봤던 것들 이다.)
+
+type enumerated PDN_Type
+{
+	IPv4,
+	Ipv6,
+	Ipv4v6
+}
+
+var PDN_Type vl_pdn_type :=IPv4 ->저거 중에 고르는건가봄.
+
+Record of,set of(특이한게 Record는 순서를 따짐.)
+
+type record of integer ROI;
+var ROI vl_roi1 := {1,3,4};
+var ROI vl_roi2 := {1,4,3};   ->이거는 원소의 순서가 달라서 Not equal임 record는 순서가 중요함.
+
+type set of integer SOI;
+var SOI vl_soi1 := {1,3,4};
+var SOI vl_soi2 := {1,4,3};   ->둘이 Equal임.
+
+----------------------타입 설명 끝-------------------------------------
+PROGRAM CONTROL STATEMENTS
+If-else statement
+if(condition){ <stmt>}[else {<stmt>}]
+EX)
+var integer vl_my_number := 100
+if(vl_my_number <50)
+{
+	log("Less than 50")
+}
+else if(vl_my_number > 50)
+{
+	log("Greater than 50")
+}
+else
+{
+	log("Exactly 50")
+}
+
+
+Select-Case statement
+select(<expression>){
+   case(<template>){<statement>}
+   [case(<template-list>){<statement>}]
+    ...
+   [case else{<statement>}]
+}
+EX)
+var integer vl_num :=0;  var charstring vl_color;
+select (vl_num)
+{
+	case(0)
+	{
+	 vl_color := "red";
+	}
+	case(1)
+	{
+	 vl_color := "blue";
+	}
+	case else
+	{
+	 vl_color := "pink";
+}
+
+
+For loop
+for (<init>; <condition>; <expr>){<stmt>}
+EX)
+var integer y[5][5]
+for(var integer i := 0; i<5; i := i+1)
+{
+	for (var integer j := 0; j<5; j :=j+1)
+	{
+	 y[i][j] :=i+j
+	}
+}
+
+While loop
+while (<condition>){ <statement>}
+EX)
+var boolean vl_bigger_than_5 : true
+while(vl_bigger_than_5 !=true)
+{
+	if(rand()*10.0>5.0)
+	{
+	 vl_bigger_than_5 := true;
+	}
+}
+
+Do while loop
+do {<statement>}while(<condition>);
+EX)
+var boolean vl_bigger_than_5 : true
+do
+{
+	if(rand()*10.0>5.0)
+	{
+	 vl_bigger_than_5 := true;
+	}
+}
+while(vl_bigger_than_5 !=true)
+
+---------------------------------------------------------------------------
+Functions
+
+function f_my_func
+(
+	integer pl_num,
+	charstring pl_str
+)
+return charstring
+{
+}
+f_my_func(6, "Hello")
+
+이 언어 특이하네..!
+함수에 파라미터를 줄 때 inout이 정해져 있음 마치 프로그래밍 언어론에서 말한 입출력모드가 명시적으로 정의 되어있음.
+
+그래서 in으로 갈때는 변수의 파라미터를 받을 수 있고 out으로 갈때는 C의 포인터와 주소 연산자 콜라보 처럼 함수 부른 곳에게
+값을 전달 할 수 있음.
+그리고 inout은 둘다 가능하고
+예를 들면
+function f_1(in integer pl_i)
+{
+var integer j;
+j :=pl_i;
+pl_i:=1
+}
+in의 경우는 integer값을 받을 수는 있지만 pl_i 값이 함수를 부른곳에 영향을 주는 것은 아니다.
+
+function f_2(out integer pl_i)
+{
+var integer j;
+j :=pl_i;
+pl_i := 2
+}
+out의 경우는 integer 값을 받을 수는 없지만 설정됨 pl_i 값을 함수가 부른곳에 적용할 수 있다(effect 있음)
+물론 inout은 둘다 가능.
+
+-------------------------------------------------------------------------------------------
+Timer
+Timers 는 시간을 측정하는 것이다.
+Default값이 할당될 수 있고 float value값이 할당될 수 있다.
+
+Timer T1;
+time T2 :=6.0;
+
+T1.start(10.0); //T1 has no default
+T2.start; //Default value of 6.0
+T2.start(8.0); //Override default
+T1.start; //ERROR: T1 has no default
+
+여기에 추가적으로 timeout이라는 액션이 있는데 이게 timeout되면 작동을 막는다.
+
+---------------------------------------와우 여기까지는 Basic이네!-------------------------------
+template타입이 있음.
+template MyMessage Type tr_template1
+(
+	boolean pl_param
+)
+:=
+{
+	field1 := ?,
+	field2 := ("A","B"),
+	field3 :=pl_param
+}
+
+template 개념이 이해가 안감....!
+
+두가지 다른 component와 메시지를 주고 받을 때 port을 이용해야함.
+port사용하는 데 특이한 점이 있음
+send receive 개념이 있는데 send에서 보낸 메시지랑 receive에서 보낸 메시지랑 값이 같아야 함.
+같지 않으면 blocking이 됨.
+
+alt
+우선순위를 정할 수 있는 함수 인것 같다.
+sequential execution을 정할 수 있다.
+Ex)
+alt { //declares alternatives
+//1st alternative(highest precedence)
+//2st alternative
+//
+//last alternative(lowest precedence)
+}
+
+이런식으로 사용할 수 있어서 실제로 사용할때에는
+EX) 
+P.send(req)
+T.start;
+//...
+alt {
+[]P.receive(resp) { /*actions to do and exit alt */}
+[] any port.receive { /*handle unexpected event */}
+[] T.timeout    {/*handle timer expiry and exit */}
+}
+이런식으로 사용하며...
+alt는 순차적인 실행을 할 수 있게 해주는 것 같으며 
+그럼 ALT랑 while문이랑 뭐가 다른거지...?
+
+또 추가적인 개념인 ALTSTEP이라는 개념이 있음.
+이 ALTSTEP이라는 개념도 이해를 못하겠음 이건 월요일날와서 생각을 조금더 해봐야겠다.
+이거 뒷부분만 집에가서 또 들어봐야겠다...
+
+
+2021.01.15
+
+
+
