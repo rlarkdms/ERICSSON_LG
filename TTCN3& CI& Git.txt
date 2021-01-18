@@ -312,15 +312,67 @@ alt {
 [] T.timeout    {/*handle timer expiry and exit */}
 }
 이런식으로 사용하며...
-alt는 순차적인 실행을 할 수 있게 해주는 것 같으며 
-그럼 ALT랑 while문이랑 뭐가 다른거지...?
+
+순차적인 실행은 명시적인 문제가 생긴다고 적혀있음.
+이게 뭔 얘기인지 살펴보면
+그냥 해석만 해보자
+
+큐가 모두 비어있다고 가정하자
+P.send(x); //P에 x을 전송해라-> 차단되지 않음.
+T.start; //T timer을 실행시켜라 guard reception을 위해서
+P.receive(x); //P(port) x를 받을때까지 기다려라->블럭되어있음->결국 send을 할때까지 계속 차단되어있는거네?
+T.timeout; //t가 탈출하기까지를 기다린다.
+아 강의를 들어보니 P가 send을 했는데 만약 도착을 못하면? 그래서 우리는 약간 우선순위?대안점을 두는 거임.
+
+EX) 
+P.send(req)
+T.start;
+//...
+alt {
+[]P.receive(resp) { /*actions to do and exit alt */}
+[] any port.receive { /*handle unexpected event */}
+[] T.timeout    {/*handle timer expiry and exit */}
+}
+이런식으로 사용하며...
+결국에는 alt함수는 함수내에 명령어를 돌아가면서 실행하는데 1번째가 안되면 2번째 2번째가 안되면 3번째 이런식으로 함수를 실행하는 거다. 
+
 
 또 추가적인 개념인 ALTSTEP이라는 개념이 있음.
-이 ALTSTEP이라는 개념도 이해를 못하겠음 이건 월요일날와서 생각을 조금더 해봐야겠다.
-이거 뒷부분만 집에가서 또 들어봐야겠다...
+가장 마지막 activated는 가장 큰 우선순위을 가진다는데 왜지???_??
 
 
 2021.01.15
 
+FT를 위한 5G의 일반적인 TTCN FW(TYPHON)
+
+TYPHON Framework Layers
+08-init
+07-Transmission
+06-DB functions
+05-Utilities
+04-Component
+03-Interface
+02-Run-Time definitions
+01-Static definitions 
+
+
+typhon의 framework을 만족시키에는 모듈화가 필요함.
+최대한 이진파일을 작게해야하고
+
+결국에는 메시지를 보내기위해서 포트를 사용해야함.
+아 TTCN을 이용할때는 모듈을 잘 이용해야하는구나(여기서 의문점 그냥 모듈 다 때려넣으면 안되나? 다 import 시키면 돌아가는데 문제가 없잖아??->이건 또 내 생각이겠지)
+
+약간 모듈화해서 함수를 사용해서 가져오는 느낌쓰?ㅇㅋ?
+결론은 EXAMPLE TC의 흐름은
+f_INIT_simAMF_HTTP2__init
+f_INIT_simNRF_HTTP2__init
+f_TR_simAMF_NSMF__send
+f_TR_simAMF_NNRF__receive
+f_TR_simAMF_NNRF__send
+f_TR_simAMF_NSMF__receive
+f_INIT_Typhon__postamble
+(end of test case)
+
+21.01.18
 
 
