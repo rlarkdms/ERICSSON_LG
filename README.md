@@ -14,6 +14,13 @@ TTCN3 문법 정리.
 ### 2021.01.18🙄
 gtt/gttc overview <br>
 5G에서 FT,ST 테스트하는 방법 overview<br> 
+k8s 개념
+
+### 2021.01.19😏
+TYPHON Framework Architecture OverView<br>
+TTCN pcap보는법
+
+
 
 
 
