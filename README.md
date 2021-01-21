@@ -25,6 +25,10 @@ TTCN 코드랑 pcap 매핑하여 보기(+wiseshark 사용법 배움)<br>
 TYPHON Framework Architecture OverView-> Review<br>
 AAT 강의(뭔말인지 모르겠어요...)
 
+### 2021.01.21😎
+TC 돌리는 법
+쿠버네티스 설명과 정리.
+pcap관리 하는 법 
 
 
 
