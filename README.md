@@ -26,8 +26,8 @@ TYPHON Framework Architecture OverView-> Review<br>
 AAT 강의(뭔말인지 모르겠어요...)
 
 ### 2021.01.21😎
-TC 돌리는 법
-쿠버네티스 설명과 정리.
+TC 돌리는 법<br>
+쿠버네티스 설명과 정리<br>
 pcap관리 하는 법 
 
 
