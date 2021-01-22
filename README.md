@@ -30,6 +30,12 @@ TC 돌리는 법<br>
 쿠버네티스 설명과 정리<br>
 pcap관리 하는 법 
 
+### 2021.01.22😪
+branch을 build후 build portal에서 TC 상태 보기.
+feature관련 branch 환경 살펴보기.(tree로 확인)
+네트워크 공부(TCP/UDP/packet/...네트워크 관련 지식 확인)
+
+뭔가를 올리고 싶은데 이제 너무 private한 내용이라 올릴수가 없다😥
 
 
 
