@@ -35,6 +35,12 @@ branch을 build후 build portal에서 TC 상태 보기.<br>
 feature관련 branch 환경 살펴보기.(tree로 확인)<br>
 네트워크 공부(TCP/UDP/packet/...네트워크 관련 지식 확인)<br>
 
+### 2021.01.25😣
+이제까지 쓰였던 용어 정리
+네트워크 관해서 기본적인 TCP/UDP/packet 이동/RESTFUL API/쿠키와 세션/웹서버와 클라이언트 이동 공부
+업무 흐름도 작성(내일 물어보기)
+Next 알아보기.
+
 뭔가를 올리고 싶은데 이제 너무 private한 내용이라 올릴수가 없다😥
 
 
