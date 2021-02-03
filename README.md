@@ -70,6 +70,10 @@ pcap 떨구고 저장 및 확인<br>
 regression 테스트.<br>
 ttcn/test tool2 테스트
 
+### 2021.02.03😛
+test 결과 리포트 작성<br>
+pcap과 check point 대응해서 확인 후 결과 작성 
+
 뭔가를 올리고 싶은데 이제 너무 private한 내용이라 올릴수가 없다😥
 
 
