@@ -79,8 +79,8 @@ pcap과 check point 대응해서 확인 후 결과 작성
 wireshark dynamic table 없애는 법
 
 ### 2021.02.05~2021.02.09
-test 결과 리포트 작성
-pod와 dynamic table관련 고민하기
+test 결과 리포트 작성<br>
+pod와 dynamic table관련 고민하기<br>
 pcap 달기
 
 뭔가를 올리고 싶은데 이제 너무 private한 내용이라 올릴수가 없다😥
