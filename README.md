@@ -83,6 +83,11 @@ test 결과 리포트 작성<br>
 pod와 dynamic table관련 고민하기<br>
 pcap 달기
 
+### 2021.02.15😩
+devops 관련 정리(용어,과정)<br>
+ericsson에서 사용하는 툴 정리.<br>
+Timeout으로 gtt가 꺼져서 다시한번 final report 보고하기 
+
 뭔가를 올리고 싶은데 이제 너무 private한 내용이라 올릴수가 없다😥
 
 
