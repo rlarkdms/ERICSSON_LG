@@ -88,6 +88,10 @@ devops 관련 정리(용어,과정)<br>
 ericsson에서 사용하는 툴 정리.<br>
 Timeout으로 gtt가 꺼져서 다시한번 final report 보고하기 
 
+### 2021.02.16🦄
+DevOps 관련 공부중!(Gerrit,Jenkins,Docker,k8s,Microservices)<br>
+발표준비중
+
 뭔가를 올리고 싶은데 이제 너무 private한 내용이라 올릴수가 없다😥
 
 
