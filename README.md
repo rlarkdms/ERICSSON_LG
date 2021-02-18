@@ -92,9 +92,13 @@ Timeout으로 gtt가 꺼져서 다시한번 final report 보고하기
 DevOps 관련 공부중!(Gerrit,Jenkins,Docker,k8s,Microservices)<br>
 발표준비중
 
-### 2021.02.16🦍
+### 2021.02.17🦍
 DevOps+ERICSSON DevOps Learing<br>
 발표준비중~_~
+
+### 2021.02.18🦅
+DevOps+ERICSSON DevOps Learing<br>
+microservices with Docker+k8s 
 
 뭔가를 올리고 싶은데 이제 너무 private한 내용이라 올릴수가 없다😥
 
