@@ -104,7 +104,8 @@ microservices with Docker+k8s
 microservices with Docker+k8s presentation 준비.<br>
 DevOps 내용 정리.
 
-뭔가를 올리고 싶은데 이제 너무 private한 내용이라 올릴수가 없다😥
-
-
+### 2021.02.22
+microservices with Docker+k8s presentation 준비.<br>
+ericsson DevOps tool 정리<br>
+SBI model 관련해서 스토리 라인 작성.
 
