@@ -104,8 +104,15 @@ microservices with Docker+k8s
 microservices with Docker+k8s presentation 준비.<br>
 DevOps 내용 정리.
 
-### 2021.02.22
+### 2021.02.22~25
 microservices with Docker+k8s presentation 준비.<br>
 ericsson DevOps tool 정리<br>
-SBI model 관련해서 스토리 라인 작성.
+SBI model 관련해서 스토리 라인 작성.<br>
+팀장님과 면담-피드백 받음
+
+### 2021.02.26
+마지막날 문서정리 책상정리<br>
+팀원들과 인사<br>
+인턴동기들과 인사<br>
+느낀점 https://eun-dolphin.tistory.com/15
 
